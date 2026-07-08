@@ -1,0 +1,163 @@
+{
+  "app": {
+    "name": "E-cafe",
+    "tagline": "Сандық мәзір"
+  },
+  "common": {
+    "save": "Сақтау",
+    "cancel": "Болдырмау",
+    "delete": "Жою",
+    "edit": "Өзгерту",
+    "add": "Қосу",
+    "back": "Артқа",
+    "loading": "Жүктелуде...",
+    "error": "Қате",
+    "success": "Сәтті",
+    "confirm": "Растау",
+    "search": "Іздеу",
+    "total": "Барлығы",
+    "currency": "₸",
+    "language": "Тіл"
+  },
+  "auth": {
+    "login": "Кіру",
+    "register": "Тіркелу",
+    "logout": "Шығу",
+    "email": "Email",
+    "password": "Құпия сөз",
+    "name": "Аты",
+    "loginTitle": "Жүйеге кіру",
+    "registerTitle": "Әкімші тіркелуі",
+    "noAccount": "Аккаунт жоқ па?",
+    "hasAccount": "Аккаунт бар ма?"
+  },
+  "menu": {
+    "categories": "Санаттар",
+    "addToCart": "Себетке",
+    "unavailable": "Жоқ",
+    "inStock": "Бар",
+    "markAvailable": "Мәзірге қайтару",
+    "markUnavailable": "Мәзірден алу",
+    "comment": "Пікір",
+    "itemComment": "Тағамға пікір",
+    "commentPlaceholder": "Мысалы: пиязсыз, ащы",
+    "callWaiter": "Даяшыны шақыру",
+    "waiterCalled": "Даяшы шақырылды!",
+    "table": "Үстел",
+    "cart": "Себет",
+    "emptyCart": "Себет бос",
+    "placeOrder": "Тапсырыс беру",
+    "orderPlaced": "Тапсырыс жіберілді!",
+    "yourOrders": "Сіздің тапсырыстарыңыз"
+  },
+  "tables": {
+    "title": "Үстелдер",
+    "orders": "Тапсырыс",
+    "clear": "Босату",
+    "status": {
+      "free": "Бос",
+      "occupied": "Бос емес",
+      "calling": "Шақыру",
+      "has_order": "Тапсырыс бар",
+      "order_new": "Аспазды күтуде",
+      "order_preparing": "Дайындалуда",
+      "order_ready": "Дайын — әкету",
+      "order_delivered": "Үстелде"
+    },
+    "tapHint": "Барлық тапсырыстарды көру үшін үстелді басыңыз",
+    "noOrders": "Белсенді тапсырыс жоқ",
+    "fromClient": "QR / телефон",
+    "fromWaiter": "Официант"
+  },
+  "notifications": {
+    "sound": "Дыбыс",
+    "soundOn": "Дыбыс қосулы",
+    "soundOff": "Дыбысты қосу",
+    "pushOn": "Push-хабарландыру қосулы",
+    "pushOff": "Push-хабарландыруды қосу"
+  },
+  "orderStatus": {
+    "new": "Жаңа",
+    "preparing": "Дайындалуда",
+    "ready": "Дайын",
+    "delivered": "Жеткізілді",
+    "paid": "Төленді",
+    "cancelled": "Болдырылмады"
+  },
+  "admin": {
+    "dashboard": "Басқару панелі",
+    "establishments": "Мекемeler",
+    "tables": "Үстелдер",
+    "menuManagement": "Мәзір",
+    "staff": "Қызметкерлер",
+    "orders": "Тапсырыстар",
+    "stats": "Статистика",
+    "createEstablishment": "Мекеме құру",
+    "createTable": "Үстел қосу",
+    "createCategory": "Санат қосу",
+    "createItem": "Тағам қосу",
+    "editItem": "Тағамды өңдеу",
+    "nameRu": "Атауы (RU)",
+    "nameKz": "Атауы (KZ)",
+    "descriptionRu": "Сипаттама (RU)",
+    "descriptionKz": "Сипаттама (KZ)",
+    "descriptionPlaceholder": "Құрамы, салмағы, ерекшеліктері...",
+    "noDescription": "Сипаттама жоқ",
+    "addStaff": "Қызметкер қосу",
+    "qrCode": "QR-код",
+    "downloadQr": "QR жүктеу",
+    "workingHours": "Жұмыс уақыты",
+    "address": "Мекенжай",
+    "phone": "Телефон",
+    "revenue": "Табыс",
+    "orderCount": "Тапсырыстар",
+    "avgOrder": "Орташа чек",
+    "topItems": "Танымал тағамдар"
+  },
+  "chef": {
+    "title": "Аспазхана",
+    "newOrders": "Жаңа тапсырыстар",
+    "startCooking": "Дайындауды бастау",
+    "markReady": "Дайын",
+    "fontSize": "Мәтін өлшемі",
+    "fontSmaller": "Мәтінді кішірейту",
+    "fontLarger": "Мәтінді үлкейту",
+    "font": {
+      "normal": "Қалыпты",
+      "large": "Ірі",
+      "xlarge": "Өте ірі"
+    },
+    "confirmStartTitle": "Тапсырысты дайындауды бастау — №{{table}} үстел?",
+    "confirmReadyTitle": "Тапсырыс дайын — №{{table}} үстел?"
+  },
+  "waiter": {
+    "title": "Даяшы",
+    "activeOrders": "Белсенді тапсырыстар",
+    "readyOrders": "Дайын тапсырыстар",
+    "markDelivered": "Жеткізілді",
+    "closeOrder": "Жабу (төленді)",
+    "waiterCalls": "Шақырулар",
+    "acknowledge": "Қабылданды",
+    "addOrder": "Тапсырыс қабылдау",
+    "placeOrder": "Аспазханаға жіберу",
+    "orderForTable": "№{{number}} үстелге тапсырыс",
+    "confirmDelivered": "Жеткізілді деп белгілеу — №{{table}} үстел?",
+    "confirmPaid": "Тапсырысты жабу (төленді) — №{{table}} үстел?",
+    "confirmClear": "№{{table}} үстелді босату?",
+    "confirmAcknowledge": "Шақыруды қабылдау — №{{table}} үстел?"
+  },
+  "days": {
+    "0": "Дүйсенбі",
+    "1": "Сейсенбі",
+    "2": "Сәрсенбі",
+    "3": "Бейсенбі",
+    "4": "Жұма",
+    "5": "Сенбі",
+    "6": "Жексенбі"
+  },
+  "roles": {
+    "admin": "Әкімші",
+    "chef": "Аспаз",
+    "waiter": "Даяшы"
+  }
+}

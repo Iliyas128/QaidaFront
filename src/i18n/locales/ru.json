@@ -1,0 +1,163 @@
+{
+  "app": {
+    "name": "E-cafe",
+    "tagline": "Цифровое меню"
+  },
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Изменить",
+    "add": "Добавить",
+    "back": "Назад",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успешно",
+    "confirm": "Подтвердить",
+    "search": "Поиск",
+    "total": "Итого",
+    "currency": "₸",
+    "language": "Язык"
+  },
+  "auth": {
+    "login": "Вход",
+    "register": "Регистрация",
+    "logout": "Выйти",
+    "email": "Email",
+    "password": "Пароль",
+    "name": "Имя",
+    "loginTitle": "Вход в систему",
+    "registerTitle": "Регистрация администратора",
+    "noAccount": "Нет аккаунта?",
+    "hasAccount": "Уже есть аккаунт?"
+  },
+  "menu": {
+    "categories": "Категории",
+    "addToCart": "В корзину",
+    "unavailable": "Нет в наличии",
+    "inStock": "В наличии",
+    "markAvailable": "Вернуть в меню",
+    "markUnavailable": "Убрать из меню",
+    "comment": "Комментарий",
+    "itemComment": "Комментарий к блюду",
+    "commentPlaceholder": "Например: без лука, острое",
+    "callWaiter": "Вызвать официанта",
+    "waiterCalled": "Официант вызван!",
+    "table": "Стол",
+    "cart": "Корзина",
+    "emptyCart": "Корзина пуста",
+    "placeOrder": "Оформить заказ",
+    "orderPlaced": "Заказ отправлен!",
+    "yourOrders": "Ваши заказы"
+  },
+  "tables": {
+    "title": "Столики",
+    "orders": "Заказов",
+    "clear": "Освободить",
+    "status": {
+      "free": "Свободен",
+      "occupied": "Занят",
+      "calling": "Вызов",
+      "has_order": "Заказ",
+      "order_new": "Ожидает кухню",
+      "order_preparing": "Готовится",
+      "order_ready": "Готов — нести",
+      "order_delivered": "На столе"
+    },
+    "tapHint": "Нажмите на столик — примите заказ или смотрите статус в реальном времени",
+    "noOrders": "Нет активных заказов",
+    "fromClient": "QR / телефон",
+    "fromWaiter": "Официант"
+  },
+  "notifications": {
+    "sound": "Звук",
+    "soundOn": "Звук включён",
+    "soundOff": "Включить звук",
+    "pushOn": "Push-уведомления включены",
+    "pushOff": "Включить push-уведомления"
+  },
+  "orderStatus": {
+    "new": "Новый",
+    "preparing": "Готовится",
+    "ready": "Готов",
+    "delivered": "Доставлен",
+    "paid": "Оплачен",
+    "cancelled": "Отменён"
+  },
+  "admin": {
+    "dashboard": "Панель управления",
+    "establishments": "Заведения",
+    "tables": "Столики",
+    "menuManagement": "Меню",
+    "staff": "Сотрудники",
+    "orders": "Заказы",
+    "stats": "Статистика",
+    "createEstablishment": "Создать заведение",
+    "createTable": "Добавить столик",
+    "createCategory": "Добавить категорию",
+    "createItem": "Добавить блюдо",
+    "editItem": "Редактировать блюдо",
+    "nameRu": "Название (RU)",
+    "nameKz": "Название (KZ)",
+    "descriptionRu": "Описание (RU)",
+    "descriptionKz": "Описание (KZ)",
+    "descriptionPlaceholder": "Состав, вес, особенности...",
+    "noDescription": "Описание не указано",
+    "addStaff": "Добавить сотрудника",
+    "qrCode": "QR-код",
+    "downloadQr": "Скачать QR",
+    "workingHours": "Рабочее время",
+    "address": "Адрес",
+    "phone": "Телефон",
+    "revenue": "Выручка",
+    "orderCount": "Заказов",
+    "avgOrder": "Средний чек",
+    "topItems": "Популярные блюда"
+  },
+  "chef": {
+    "title": "Кухня",
+    "newOrders": "Новые заказы",
+    "startCooking": "Начать готовить",
+    "markReady": "Готово",
+    "fontSize": "Размер текста",
+    "fontSmaller": "Уменьшить текст",
+    "fontLarger": "Увеличить текст",
+    "font": {
+      "normal": "Обычный",
+      "large": "Крупный",
+      "xlarge": "Очень крупный"
+    },
+    "confirmStartTitle": "Начать готовить заказ — стол {{table}}?",
+    "confirmReadyTitle": "Заказ готов — стол {{table}}?"
+  },
+  "waiter": {
+    "title": "Официант",
+    "activeOrders": "Активные заказы",
+    "readyOrders": "Готовые заказы",
+    "markDelivered": "Доставлено",
+    "closeOrder": "Закрыть (оплачено)",
+    "waiterCalls": "Вызовы",
+    "acknowledge": "Принято",
+    "addOrder": "Принять заказ",
+    "placeOrder": "Отправить на кухню",
+    "orderForTable": "Заказ для столика №{{number}}",
+    "confirmDelivered": "Отметить доставленным — стол {{table}}?",
+    "confirmPaid": "Закрыть заказ (оплачено) — стол {{table}}?",
+    "confirmClear": "Освободить столик {{table}}?",
+    "confirmAcknowledge": "Принять вызов — стол {{table}}?"
+  },
+  "days": {
+    "0": "Понедельник",
+    "1": "Вторник",
+    "2": "Среда",
+    "3": "Четверг",
+    "4": "Пятница",
+    "5": "Суббота",
+    "6": "Воскресенье"
+  },
+  "roles": {
+    "admin": "Администратор",
+    "chef": "Повар",
+    "waiter": "Официант"
+  }
+}
