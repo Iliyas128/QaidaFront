@@ -2,7 +2,7 @@
   "name": "E-cafe",
   "short_name": "E-cafe",
   "description": "Цифровое меню для кафе",
-  "start_url": "/",
+  "start_url": "/login",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#111111",

@@ -11,6 +11,7 @@ import TableDetailPanel from '../components/TableDetailPanel';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { useSocket } from '../hooks/useSocket';
 import { useStaffNotifications } from '../hooks/useStaffNotifications';
+import { useStaffLiveSync } from '../hooks/useStaffLiveSync';
 import { usePushNotifications } from '../hooks/usePushNotifications';
 import SoundToggle from '../components/SoundToggle';
 import PushToggle from '../components/PushToggle';
@@ -55,19 +56,19 @@ export default function WaiterPanel() {
     if (estId) api.tables.status(estId).then(setTables);
   }, [estId]);
 
-  useEffect(() => {
+  const refreshAll = useCallback(() => {
     loadOrders();
     loadCalls();
     loadTables();
   }, [loadOrders, loadCalls, loadTables]);
 
+  useStaffLiveSync(refreshAll);
+
   useEffect(() => {
-    if (!estId || tab !== 'tables') return;
-    const id = setInterval(() => {
-      if (document.visibilityState === 'visible') loadTables();
-    }, 30000);
-    return () => clearInterval(id);
-  }, [estId, tab, loadTables]);
+    loadOrders();
+    loadCalls();
+    loadTables();
+  }, [loadOrders, loadCalls, loadTables]);
 
   useEffect(() => {
     if (!socket) return;

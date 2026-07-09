@@ -9,6 +9,7 @@ import StaffMenuPanel from '../components/StaffMenuPanel';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { useSocket } from '../hooks/useSocket';
 import { useStaffNotifications } from '../hooks/useStaffNotifications';
+import { useStaffLiveSync } from '../hooks/useStaffLiveSync';
 import { usePushNotifications } from '../hooks/usePushNotifications';
 import SoundToggle from '../components/SoundToggle';
 import PushToggle from '../components/PushToggle';
@@ -33,6 +34,8 @@ export default function ChefPanel() {
   const load = useCallback(() => {
     if (estId) api.orders.list(estId).then(setOrders);
   }, [estId]);
+
+  useStaffLiveSync(load);
 
   useEffect(() => {
     load();

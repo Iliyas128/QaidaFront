@@ -27,6 +27,7 @@ self.addEventListener('notificationclick', (event) => {
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
       for (const client of list) {
+        client.postMessage({ type: 'ecafe-refresh' });
         if (client.url.includes(url) && 'focus' in client) {
           return client.focus();
         }
