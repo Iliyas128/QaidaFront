@@ -118,6 +118,18 @@ export default function StatsPage() {
           <div className="stat-value">{Math.round(s.totalSalaries || 0).toLocaleString()} ₸</div>
           <div className="stat-label">{t('admin.salaries')}</div>
         </div>
+        <div className="stat-card">
+          <div className="stat-value">{Math.round(s.salaryBase || 0).toLocaleString()} ₸</div>
+          <div className="stat-label">{t('admin.baseSalary')}</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-value">{Math.round(s.salaryCommissions || 0).toLocaleString()} ₸</div>
+          <div className="stat-label">{t('admin.commissionEarned')}</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-value">{Math.round(s.salaryPaid || 0).toLocaleString()} ₸</div>
+          <div className="stat-label">{t('admin.salaryPaid')}</div>
+        </div>
         <div className="stat-card stat-card-profit">
           <div className="stat-value">{Math.round(s.netProfit || 0).toLocaleString()} ₸</div>
           <div className="stat-label">{t('admin.netProfit')}</div>

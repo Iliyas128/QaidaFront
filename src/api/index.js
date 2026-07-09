@@ -2,24 +2,64 @@ const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
 const ACCESS_KEY = 'accessToken';
 const REFRESH_KEY = 'refreshToken';
 
+function readStorage(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    try {
+      return sessionStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  }
+}
+
+function writeStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+    return;
+  } catch {
+    /* Safari private mode can block persistent storage. */
+  }
+
+  try {
+    sessionStorage.setItem(key, value);
+  } catch {
+    // No storage available; the login request can still finish, but it cannot persist.
+  }
+}
+
+function removeStorage(key) {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // Ignore unavailable storage.
+  }
+  try {
+    sessionStorage.removeItem(key);
+  } catch {
+    // Ignore unavailable storage.
+  }
+}
+
 export function getAccessToken() {
-  return localStorage.getItem(ACCESS_KEY) || localStorage.getItem('token');
+  return readStorage(ACCESS_KEY) || readStorage('token');
 }
 
 export function getRefreshToken() {
-  return localStorage.getItem(REFRESH_KEY);
+  return readStorage(REFRESH_KEY);
 }
 
 export function setTokens(accessToken, refreshToken) {
-  localStorage.setItem(ACCESS_KEY, accessToken);
-  if (refreshToken) localStorage.setItem(REFRESH_KEY, refreshToken);
-  localStorage.removeItem('token');
+  writeStorage(ACCESS_KEY, accessToken);
+  if (refreshToken) writeStorage(REFRESH_KEY, refreshToken);
+  removeStorage('token');
 }
 
 export function clearTokens() {
-  localStorage.removeItem(ACCESS_KEY);
-  localStorage.removeItem(REFRESH_KEY);
-  localStorage.removeItem('token');
+  removeStorage(ACCESS_KEY);
+  removeStorage(REFRESH_KEY);
+  removeStorage('token');
 }
 
 async function refreshAccessToken() {

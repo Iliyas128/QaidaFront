@@ -1,9 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LangSwitch from '../components/LangSwitch';
+import { useAuth } from '../context/AuthContext';
 
 export default function Home() {
   const { t } = useTranslation();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <p className="panel-loading">{t('common.loading')}</p>;
+  }
+
+  if (user?.role === 'admin') return <Navigate to="/admin" replace />;
+  if (user?.role === 'chef') return <Navigate to="/chef" replace />;
+  if (user?.role === 'waiter') return <Navigate to="/waiter" replace />;
 
   return (
     <div className="page">

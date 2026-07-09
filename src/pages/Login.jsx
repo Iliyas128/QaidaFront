@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
@@ -6,12 +6,21 @@ import LangSwitch from '../components/LangSwitch';
 
 export default function Login() {
   const { t } = useTranslation();
-  const { login } = useAuth();
+  const { login, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      if (user.role === 'admin') navigate('/admin', { replace: true });
+      else if (user.role === 'chef') navigate('/chef', { replace: true });
+      else if (user.role === 'waiter') navigate('/waiter', { replace: true });
+      else navigate('/', { replace: true });
+    }
+  }, [authLoading, user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +38,10 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+  if (authLoading || user) {
+    return <p className="panel-loading">{t('common.loading')}</p>;
+  }
 
   return (
     <div className="auth-page">
