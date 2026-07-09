@@ -116,12 +116,25 @@ export default function TablesPage() {
             {qrModal.qrCodeDataUrl && (
               <img src={qrModal.qrCodeDataUrl} alt="QR" style={{ margin: '0 auto 16px', maxWidth: 280 }} />
             )}
-            <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', wordBreak: 'break-all' }}>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', wordBreak: 'break-all', marginBottom: 12 }}>
               {qrModal.qrUrl}
             </p>
-            <a href={qrModal.qrCodeDataUrl} download={`table-${qrModal.table?.number || 'qr'}.png`} className="btn btn-primary" style={{ marginTop: 16 }}>
-              {t('admin.downloadQr')}
-            </a>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 16 }}>
+              {t('admin.qrHint')}
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <a
+                href={qrModal.qrUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+              >
+                {t('admin.openMenuLink')}
+              </a>
+              <a href={qrModal.qrCodeDataUrl} download={`table-${qrModal.table?.number || 'qr'}.png`} className="btn btn-primary">
+                {t('admin.downloadQr')}
+              </a>
+            </div>
           </div>
         </div>
       )}

@@ -1,7 +1,8 @@
 {
   "rewrites": [
     { "source": "/api/(.*)", "destination": "http://185.113.132.17/api/$1" },
-    { "source": "/((?!assets|api|sw.js|manifest.json|icon-192.png).*)", "destination": "/index.html" }
+    { "source": "/socket.io/(.*)", "destination": "http://185.113.132.17/socket.io/$1" },
+    { "source": "/((?!assets|api|socket.io|sw.js|manifest.json|icon-192.png).*)", "destination": "/index.html" }
   ],
   "headers": [
     {

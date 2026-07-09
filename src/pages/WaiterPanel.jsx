@@ -179,34 +179,40 @@ export default function WaiterPanel() {
 
   if (!estId) {
     return (
-      <div className="empty-state">
-        <p>Нет назначенного заведения</p>
+      <div className="empty-state card" style={{ margin: '24px 16px' }}>
+        <p>{t('waiter.noEstablishment')}</p>
+        <p style={{ marginTop: 12, fontSize: '0.8125rem', textTransform: 'none', letterSpacing: 0 }}>
+          {t('waiter.noEstablishmentHint')}
+        </p>
       </div>
     );
   }
 
   return (
     <div className="page">
-      <header className="header">
+      <header className="header staff-header">
         <div className="container header-inner">
-          <div>
-            <div className="logo">{t('waiter.title').toUpperCase()}</div>
-            <div className="logo-sub">{user?.name}</div>
+          <div className="header-brand">
+            <div className="logo staff-logo">{t('waiter.title').toUpperCase()}</div>
+            <div className="logo-sub staff-name">{user?.name}</div>
           </div>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div className="header-actions staff-header-actions">
             {(calls.length > 0 || readyOrders.length > 0) && <span className="notification-dot" />}
-            <SoundToggle />
-            <PushToggle establishmentId={estId} />
+            <div className="staff-notify-toggles">
+              <SoundToggle />
+              <PushToggle establishmentId={estId} />
+            </div>
             <LangSwitch />
-            <button className="btn btn-sm btn-secondary" onClick={() => { logout(); navigate('/login'); }}>
-              {t('auth.logout')}
+            <button className="btn btn-sm btn-secondary staff-logout-btn" onClick={() => { logout(); navigate('/login'); }}>
+              <span className="staff-logout-text">{t('auth.logout')}</span>
+              <span aria-hidden="true">✕</span>
             </button>
           </div>
         </div>
       </header>
 
-      <div className="container" style={{ padding: '20px 16px' }}>
-        <div className="category-tabs" style={{ marginBottom: 20 }}>
+      <div className="container" style={{ padding: '16px 0 20px' }}>
+        <div className="category-tabs staff-tabs" style={{ marginBottom: 16 }}>
           <button className={`category-tab ${tab === 'tables' ? 'active' : ''}`} onClick={() => setTab('tables')}>
             {t('tables.title')}
           </button>
