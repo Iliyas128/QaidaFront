@@ -460,6 +460,13 @@ textarea.form-input { resize: vertical; min-height: 72px; padding: 10px 0; }
   font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 8px;
   display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
 }
+.staff-row-link {
+  text-decoration: none; color: inherit; cursor: pointer;
+  transition: background 0.15s;
+}
+.staff-row-link:hover { background: var(--bg-muted, rgba(0,0,0,0.03)); }
+.staff-pay-preview { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+.form-hint { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
 
 .table-row {
   display: flex; align-items: center; justify-content: space-between;

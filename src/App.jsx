@@ -15,6 +15,7 @@ const EstablishmentDetail = lazy(() => import('./pages/admin/EstablishmentDetail
 const TablesPage = lazy(() => import('./pages/admin/TablesPage'));
 const MenuPage = lazy(() => import('./pages/admin/MenuPage'));
 const StaffPage = lazy(() => import('./pages/admin/StaffPage'));
+const StaffDetailPage = lazy(() => import('./pages/admin/StaffDetailPage'));
 const OrdersPage = lazy(() => import('./pages/admin/OrdersPage'));
 const StatsPage = lazy(() => import('./pages/admin/StatsPage'));
 
@@ -50,6 +51,7 @@ export default function App() {
             <Route path="tables" element={<TablesPage />} />
             <Route path="menu" element={<MenuPage />} />
             <Route path="staff" element={<StaffPage />} />
+            <Route path="staff/:staffId" element={<StaffDetailPage />} />
             <Route path="orders" element={<OrdersPage />} />
             <Route path="stats" element={<StatsPage />} />
           </Route>

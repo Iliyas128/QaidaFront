@@ -145,6 +145,16 @@ export const api = {
   },
   staff: {
     list: (estId) => request(`/establishments/${estId}/staff`),
+    get: (estId, staffId) => request(`/establishments/${estId}/staff/${staffId}`),
+    update: (estId, staffId, body) =>
+      request(`/establishments/${estId}/staff/${staffId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+      }),
+    stats: (estId, staffId, params) => {
+      const q = new URLSearchParams(params).toString();
+      return request(`/establishments/${estId}/staff/${staffId}/stats?${q}`);
+    },
     create: (estId, body) =>
       request(`/establishments/${estId}/staff`, { method: 'POST', body: JSON.stringify(body) }),
     delete: (estId, id) => request(`/establishments/${estId}/staff/${id}`, { method: 'DELETE' }),

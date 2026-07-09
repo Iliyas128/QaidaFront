@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api } from '../../api';
@@ -61,13 +62,27 @@ export default function StaffPage() {
       )}
 
       {staff.map((s) => (
-        <div key={s._id} className="table-row">
+        <Link
+          key={s._id}
+          to={`/admin/establishments/${estId}/staff/${s._id}`}
+          className="table-row staff-row-link"
+        >
           <div>
             <strong>{s.name}</strong>
             <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>{s.email}</div>
+            {(s.payMode === 'fixed' || s.payMode === 'fixed_percent') && s.baseSalary > 0 && (
+              <div className="staff-pay-preview">
+                {t('admin.baseSalary')}: {s.baseSalary.toLocaleString()} ₸
+              </div>
+            )}
+            {(s.payMode === 'percent' || s.payMode === 'fixed_percent') && s.commissionPercent > 0 && (
+              <div className="staff-pay-preview">
+                {t('admin.commissionPercent')}: {s.commissionPercent}%
+              </div>
+            )}
           </div>
           <span className="badge badge-new">{t(`roles.${s.role}`)}</span>
-        </div>
+        </Link>
       ))}
     </div>
   );
