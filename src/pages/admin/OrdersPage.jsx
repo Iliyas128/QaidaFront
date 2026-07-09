@@ -1,19 +1,43 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api, localized } from '../../api';
 import StatusBadge from '../../components/StatusBadge';
 import { useSocket } from '../../hooks/useSocket';
+import { useStaffLiveSync } from '../../hooks/useStaffLiveSync';
+
+function groupByDate(orders) {
+  const groups = [];
+  let currentDate = null;
+  orders.forEach((order) => {
+    const date = new Date(order.createdAt).toLocaleDateString();
+    if (date !== currentDate) {
+      currentDate = date;
+      groups.push({ type: 'date', date, key: `d-${date}` });
+    }
+    groups.push({ type: 'order', order, key: order._id });
+  });
+  return groups;
+}
 
 export default function OrdersPage() {
   const { estId } = useOutletContext();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
+  const [tab, setTab] = useState('active');
   const [orders, setOrders] = useState([]);
   const socket = useSocket(estId, 'admin');
 
-  const load = () => api.orders.list(estId).then(setOrders);
-  useEffect(() => { load(); }, [estId]);
+  const load = useCallback(() => {
+    const scope = tab === 'history' ? 'history' : tab === 'all' ? 'all' : undefined;
+    api.orders.list(estId, { scope }).then(setOrders);
+  }, [estId, tab]);
+
+  useStaffLiveSync(load);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   useEffect(() => {
     if (!socket) return;
@@ -23,7 +47,9 @@ export default function OrdersPage() {
       socket.off('order:new', load);
       socket.off('order:updated', load);
     };
-  }, [socket, estId]);
+  }, [socket, load]);
+
+  const grouped = useMemo(() => groupByDate(orders), [orders]);
 
   const updateStatus = async (orderId, status) => {
     await api.orders.updateStatus(estId, orderId, status);
@@ -32,47 +58,96 @@ export default function OrdersPage() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: 20 }}>{t('admin.orders')}</h2>
+      <h2 style={{ marginBottom: 16 }}>{t('admin.orders')}</h2>
+
+      <div className="category-tabs staff-tabs" style={{ marginBottom: 20 }}>
+        <button
+          type="button"
+          className={`category-tab ${tab === 'active' ? 'active' : ''}`}
+          onClick={() => setTab('active')}
+        >
+          {t('admin.ordersActive')}
+        </button>
+        <button
+          type="button"
+          className={`category-tab ${tab === 'history' ? 'active' : ''}`}
+          onClick={() => setTab('history')}
+        >
+          {t('admin.ordersHistory')}
+        </button>
+        <button
+          type="button"
+          className={`category-tab ${tab === 'all' ? 'active' : ''}`}
+          onClick={() => setTab('all')}
+        >
+          {t('admin.ordersAll')}
+        </button>
+      </div>
+
       {orders.length === 0 ? (
-        <div className="empty-state"><p>—</p></div>
+        <div className="empty-state card">
+          <p>{tab === 'active' ? t('admin.ordersEmptyActive') : t('admin.ordersEmptyHistory')}</p>
+        </div>
       ) : (
-        orders.map((order) => (
-          <div key={order._id} className="order-card">
-            <div className="order-card-header">
-              <span className="order-card-table">{t('menu.table')} {order.tableNumber}</span>
-              <StatusBadge status={order.status} />
+        grouped.map((entry) =>
+          entry.type === 'date' ? (
+            <div key={entry.key} className="orders-date-divider">
+              {entry.date}
             </div>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: 8 }}>
-              {new Date(order.createdAt).toLocaleString()}
-            </div>
-            {order.items.map((item, i) => (
-              <div key={i} className="order-item-line">
-                <span>
-                  {localized(item.name, lang)} × {item.quantity}
-                  {item.comment && <div className="order-item-comment">{item.comment}</div>}
+          ) : (
+            <div key={entry.key} className="order-card">
+              <div className="order-card-header">
+                <span className="order-card-table">
+                  {t('menu.table')} {entry.order.tableNumber}
                 </span>
-                <span>{item.price * item.quantity} ₸</span>
+                <StatusBadge status={entry.order.status} />
               </div>
-            ))}
-            <div style={{ fontWeight: 700, textAlign: 'right', marginTop: 8 }}>
-              {order.total} ₸
-            </div>
-            {order.status !== 'paid' && order.status !== 'cancelled' && (
-              <div className="order-actions">
-                {order.status === 'ready' && (
-                  <button className="btn btn-sm btn-primary" onClick={() => updateStatus(order._id, 'delivered')}>
+              <div className="order-card-meta">
+                {new Date(entry.order.createdAt).toLocaleString()}
+                {entry.order.source === 'client' && (
+                  <span className="order-source-badge">{t('tables.fromClient')}</span>
+                )}
+                {entry.order.source === 'waiter' && (
+                  <span className="order-source-badge">{t('tables.fromWaiter')}</span>
+                )}
+              </div>
+              {entry.order.items.map((item, i) => (
+                <div key={i} className="order-item-line">
+                  <span>
+                    {localized(item.name, lang)} × {item.quantity}
+                    {item.comment && <div className="order-item-comment">{item.comment}</div>}
+                  </span>
+                  <span>
+                    {item.price * item.quantity} {t('common.currency')}
+                  </span>
+                </div>
+              ))}
+              <div style={{ fontWeight: 700, textAlign: 'right', marginTop: 8 }}>
+                {entry.order.total} {t('common.currency')}
+              </div>
+              {tab === 'active' && entry.order.status === 'ready' && (
+                <div className="order-actions">
+                  <button
+                    className="btn btn-sm btn-primary"
+                    onClick={() => updateStatus(entry.order._id, 'delivered')}
+                  >
                     {t('waiter.markDelivered')}
                   </button>
-                )}
-                {order.status === 'delivered' && (
-                  <button className="btn btn-sm btn-accent" onClick={() => updateStatus(order._id, 'paid')}>
+                </div>
+              )}
+              {tab === 'active' && entry.order.status === 'delivered' && (
+                <div className="order-actions">
+                  <button
+                    className="btn btn-sm btn-accent"
+                    onClick={() => updateStatus(entry.order._id, 'paid')}
+                  >
                     {t('waiter.closeOrder')}
                   </button>
-                )}
-              </div>
-            )}
-          </div>
-        ))
+                </div>
+              )}
+            </div>
+          )
+        )
       )}
     </div>
   );

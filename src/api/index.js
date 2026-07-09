@@ -124,8 +124,13 @@ export const api = {
       request(`/establishments/${estId}/menu/items/${id}`, { method: 'DELETE' }),
   },
   orders: {
-    list: (estId, status) =>
-      request(`/establishments/${estId}/orders${status ? `?status=${status}` : ''}`),
+    list: (estId, opts = {}) => {
+      const q = new URLSearchParams();
+      if (opts.status) q.set('status', opts.status);
+      if (opts.scope) q.set('scope', opts.scope);
+      const qs = q.toString();
+      return request(`/establishments/${estId}/orders${qs ? `?${qs}` : ''}`);
+    },
     history: (estId, params) => {
       const q = new URLSearchParams(params).toString();
       return request(`/establishments/${estId}/orders/history?${q}`);
@@ -147,6 +152,16 @@ export const api = {
   stats: (estId, params) => {
     const q = new URLSearchParams(params).toString();
     return request(`/establishments/${estId}/stats?${q}`);
+  },
+  finance: {
+    list: (estId, params) => {
+      const q = new URLSearchParams(params).toString();
+      return request(`/establishments/${estId}/finance?${q}`);
+    },
+    create: (estId, body) =>
+      request(`/establishments/${estId}/finance`, { method: 'POST', body: JSON.stringify(body) }),
+    delete: (estId, id) =>
+      request(`/establishments/${estId}/finance/${id}`, { method: 'DELETE' }),
   },
   waiterCalls: {
     list: (estId) => request(`/establishments/${estId}/waiter-calls`),
