@@ -29,7 +29,10 @@
     "loginTitle": "Жүйеге кіру",
     "registerTitle": "Әкімші тіркелуі",
     "noAccount": "Аккаунт жоқ па?",
-    "hasAccount": "Аккаунт бар ма?"
+    "hasAccount": "Аккаунт бар ма?",
+    "loggedInAs": "Сіз кірдіңіз:",
+    "continueAs": "Жалғастыру",
+    "switchAccount": "Аккаунтты ауыстыру"
   },
   "menu": {
     "categories": "Санаттар",
@@ -74,7 +77,10 @@
     "soundOn": "Дыбыс қосулы",
     "soundOff": "Дыбысты қосу",
     "pushOn": "Push-хабарландыру қосулы",
-    "pushOff": "Push-хабарландыруды қосу"
+    "pushOff": "Push-хабарландыруды қосу",
+    "bannerText": "Тапсырыстарды өткізіп алмау үшін хабарландыруды қосыңыз",
+    "bannerEnable": "Хабарландыруды қосу",
+    "bannerLater": "Кейінірек"
   },
   "orderStatus": {
     "new": "Жаңа",

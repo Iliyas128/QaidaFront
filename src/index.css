@@ -152,7 +152,8 @@ img { max-width: 100%; display: block; }
 .staff-logout-btn span[aria-hidden="true"] { display: none; }
 
 @media (max-width: 640px) {
-  .staff-notify-toggles { display: none !important; }
+  .staff-notify-toggles { gap: 4px; }
+  .staff-notify-toggles .sound-toggle { min-width: 34px; padding: 6px 8px; font-size: 0.875rem; }
   .staff-header { padding: 10px 0; }
   .staff-header .header-inner { gap: 8px; }
   .staff-header .staff-logo { font-size: 0.75rem; }
@@ -746,6 +747,18 @@ textarea.form-input { resize: vertical; min-height: 72px; padding: 10px 0; }
   padding: 8px 10px;
   font-size: 1rem;
   line-height: 1;
+}
+.notify-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  background: var(--bg); border: 1px solid var(--warning, #e0a800);
+  padding: 12px 16px; margin-bottom: 16px;
+}
+.notify-banner-text { font-size: 0.875rem; font-weight: 600; }
+.notify-banner-actions { display: flex; gap: 8px; }
+.auth-current-user {
+  border: 1px solid var(--border); padding: 12px 16px; margin-bottom: 16px;
+  font-size: 0.875rem;
 }
 .sound-toggle-pulse {
   animation: pulse 1.2s infinite;

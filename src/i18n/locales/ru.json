@@ -29,7 +29,10 @@
     "loginTitle": "Вход в систему",
     "registerTitle": "Регистрация администратора",
     "noAccount": "Нет аккаунта?",
-    "hasAccount": "Уже есть аккаунт?"
+    "hasAccount": "Уже есть аккаунт?",
+    "loggedInAs": "Вы уже вошли как",
+    "continueAs": "Продолжить",
+    "switchAccount": "Сменить аккаунт"
   },
   "menu": {
     "categories": "Категории",
@@ -74,7 +77,10 @@
     "soundOn": "Звук включён",
     "soundOff": "Включить звук",
     "pushOn": "Push-уведомления включены",
-    "pushOff": "Включить push-уведомления"
+    "pushOff": "Включить push-уведомления",
+    "bannerText": "Включите уведомления, чтобы не пропускать заказы",
+    "bannerEnable": "Включить уведомления",
+    "bannerLater": "Позже"
   },
   "orderStatus": {
     "new": "Новый",

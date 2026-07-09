@@ -13,6 +13,7 @@ import { useStaffLiveSync } from '../hooks/useStaffLiveSync';
 import { usePushNotifications } from '../hooks/usePushNotifications';
 import SoundToggle from '../components/SoundToggle';
 import PushToggle from '../components/PushToggle';
+import NotifyPermissionBanner from '../components/NotifyPermissionBanner';
 import { playNewOrderSound } from '../utils/notificationSound';
 import { useChefFontSize } from '../hooks/useChefFontSize';
 import { patchOrderStatus, removeOrder, upsertOrder } from '../utils/orders';
@@ -159,6 +160,7 @@ export default function ChefPanel() {
       </header>
 
       <div className="container" style={{ padding: '16px 0 20px' }}>
+        <NotifyPermissionBanner establishmentId={estId} />
         <div className="category-tabs staff-tabs" style={{ marginBottom: 16 }}>
           <button className={`category-tab ${tab === 'orders' ? 'active' : ''}`} onClick={() => setTab('orders')}>
             {t('chef.newOrders')}

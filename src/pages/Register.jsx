@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
@@ -6,7 +6,7 @@ import LangSwitch from '../components/LangSwitch';
 
 export default function Register() {
   const { t } = useTranslation();
-  const { register, user, loading: authLoading } = useAuth();
+  const { register, logout, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -14,20 +14,12 @@ export default function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!authLoading && user) {
-      if (user.role === 'admin') navigate('/admin', { replace: true });
-      else if (user.role === 'chef') navigate('/chef', { replace: true });
-      else if (user.role === 'waiter') navigate('/waiter', { replace: true });
-      else navigate('/', { replace: true });
-    }
-  }, [authLoading, user, navigate]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
+      if (user) logout();
       await register(name, email, password);
       navigate('/admin');
     } catch (err) {
@@ -37,7 +29,7 @@ export default function Register() {
     }
   };
 
-  if (authLoading || user) {
+  if (authLoading) {
     return <p className="panel-loading">{t('common.loading')}</p>;
   }
 

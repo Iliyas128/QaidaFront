@@ -15,6 +15,7 @@ import { useStaffLiveSync } from '../hooks/useStaffLiveSync';
 import { usePushNotifications } from '../hooks/usePushNotifications';
 import SoundToggle from '../components/SoundToggle';
 import PushToggle from '../components/PushToggle';
+import NotifyPermissionBanner from '../components/NotifyPermissionBanner';
 import {
   playNewOrderSound,
   playOrderReadySound,
@@ -213,6 +214,7 @@ export default function WaiterPanel() {
       </header>
 
       <div className="container" style={{ padding: '16px 0 20px' }}>
+        <NotifyPermissionBanner establishmentId={estId} />
         <div className="category-tabs staff-tabs" style={{ marginBottom: 16 }}>
           <button className={`category-tab ${tab === 'tables' ? 'active' : ''}`} onClick={() => setTab('tables')}>
             {t('tables.title')}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
@@ -6,32 +6,28 @@ import LangSwitch from '../components/LangSwitch';
 
 export default function Login() {
   const { t } = useTranslation();
-  const { login, user, loading: authLoading } = useAuth();
+  const { login, logout, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!authLoading && user) {
-      if (user.role === 'admin') navigate('/admin', { replace: true });
-      else if (user.role === 'chef') navigate('/chef', { replace: true });
-      else if (user.role === 'waiter') navigate('/waiter', { replace: true });
-      else navigate('/', { replace: true });
-    }
-  }, [authLoading, user, navigate]);
+  const goByRole = (role) => {
+    if (role === 'admin') navigate('/admin', { replace: true });
+    else if (role === 'chef') navigate('/chef', { replace: true });
+    else if (role === 'waiter') navigate('/waiter', { replace: true });
+    else navigate('/', { replace: true });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      const user = await login(email.trim(), password);
-      if (user.role === 'admin') navigate('/admin');
-      else if (user.role === 'chef') navigate('/chef');
-      else if (user.role === 'waiter') navigate('/waiter');
-      else navigate('/');
+      if (user) logout();
+      const loggedIn = await login(email.trim(), password);
+      goByRole(loggedIn.role);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -39,7 +35,7 @@ export default function Login() {
     }
   };
 
-  if (authLoading || user) {
+  if (authLoading) {
     return <p className="panel-loading">{t('common.loading')}</p>;
   }
 
@@ -51,6 +47,29 @@ export default function Login() {
         </div>
         <h1 className="auth-title">{t('auth.loginTitle')}</h1>
         <p className="auth-subtitle">E-CAFE</p>
+        {user && (
+          <div className="auth-current-user">
+            <p style={{ marginBottom: 8 }}>
+              {t('auth.loggedInAs')} <strong>{user.name}</strong> ({t(`roles.${user.role}`)})
+            </p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                className="btn btn-sm btn-primary"
+                onClick={() => goByRole(user.role)}
+              >
+                {t('auth.continueAs')}
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-secondary"
+                onClick={() => logout()}
+              >
+                {t('auth.switchAccount')}
+              </button>
+            </div>
+          </div>
+        )}
         {error && <div className="error-msg">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
