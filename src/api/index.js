@@ -1,6 +1,8 @@
 const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
 const ACCESS_KEY = 'accessToken';
 const REFRESH_KEY = 'refreshToken';
+let memoryAccessToken = null;
+let memoryRefreshToken = null;
 
 function readStorage(key) {
   try {
@@ -43,20 +45,24 @@ function removeStorage(key) {
 }
 
 export function getAccessToken() {
-  return readStorage(ACCESS_KEY) || readStorage('token');
+  return readStorage(ACCESS_KEY) || readStorage('token') || memoryAccessToken;
 }
 
 export function getRefreshToken() {
-  return readStorage(REFRESH_KEY);
+  return readStorage(REFRESH_KEY) || memoryRefreshToken;
 }
 
 export function setTokens(accessToken, refreshToken) {
+  memoryAccessToken = accessToken;
+  memoryRefreshToken = refreshToken || null;
   writeStorage(ACCESS_KEY, accessToken);
   if (refreshToken) writeStorage(REFRESH_KEY, refreshToken);
   removeStorage('token');
 }
 
 export function clearTokens() {
+  memoryAccessToken = null;
+  memoryRefreshToken = null;
   removeStorage(ACCESS_KEY);
   removeStorage(REFRESH_KEY);
   removeStorage('token');

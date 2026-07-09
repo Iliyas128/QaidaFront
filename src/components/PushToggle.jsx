@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from '../api';
 import {
@@ -14,6 +14,23 @@ export default function PushToggle({ establishmentId }) {
   const [enabled, setEnabled] = useState(isPushGranted);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (!supported || !establishmentId || !isPushGranted()) return;
+
+    let cancelled = false;
+    subscribeToPush(establishmentId, api)
+      .then((ok) => {
+        if (!cancelled) setEnabled(ok);
+      })
+      .catch(() => {
+        if (!cancelled) setEnabled(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [supported, establishmentId]);
+
   const toggle = useCallback(async () => {
     if (!supported || !establishmentId) return;
     setLoading(true);
@@ -25,6 +42,8 @@ export default function PushToggle({ establishmentId }) {
         const ok = await subscribeToPush(establishmentId, api);
         setEnabled(ok);
       }
+    } catch {
+      setEnabled(false);
     } finally {
       setLoading(false);
     }

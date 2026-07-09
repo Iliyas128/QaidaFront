@@ -55,6 +55,16 @@ export async function subscribeToPush(establishmentId, api) {
   return true;
 }
 
+export async function hasPushSubscription() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    return Boolean(await reg.pushManager.getSubscription());
+  } catch {
+    return false;
+  }
+}
+
 export async function unsubscribeFromPush(api) {
   if (!('serviceWorker' in navigator)) return;
   const reg = await navigator.serviceWorker.ready;
