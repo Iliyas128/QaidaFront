@@ -21,6 +21,7 @@ export default function ClientMenu() {
   const [showOrders, setShowOrders] = useState(false);
   const [message, setMessage] = useState('');
   const [ordering, setOrdering] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const socket = useClientSocket(data?.establishment?.id);
 
@@ -271,7 +272,12 @@ export default function ClientMenu() {
 
         <div className="grid-2" style={{ padding: '24px 0 32px' }}>
           {filteredItems.map((item) => (
-            <div key={item._id} className="menu-item">
+            <button
+              key={item._id}
+              type="button"
+              className="menu-item menu-item-clickable"
+              onClick={() => setSelectedItem(item)}
+            >
               {item.image ? (
                 <img src={item.image} alt="" className="menu-item-image" />
               ) : (
@@ -287,7 +293,14 @@ export default function ClientMenu() {
                     {item.price} {t('common.currency')}
                   </span>
                   {item.isAvailable !== false ? (
-                    <button className="btn btn-sm btn-primary" onClick={() => addToCart(item)}>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-primary"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(item);
+                      }}
+                    >
                       +
                     </button>
                   ) : (
@@ -295,7 +308,7 @@ export default function ClientMenu() {
                   )}
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -309,6 +322,55 @@ export default function ClientMenu() {
           <button className="btn btn-primary" onClick={() => setShowCart(true)}>
             {t('menu.placeOrder')}
           </button>
+        </div>
+      )}
+
+      {selectedItem && (
+        <div className="dish-detail-overlay" onClick={() => setSelectedItem(null)}>
+          <div className="dish-detail-panel" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="dish-detail-close"
+              onClick={() => setSelectedItem(null)}
+              aria-label={t('common.back')}
+            >
+              ✕
+            </button>
+            {selectedItem.image ? (
+              <img src={selectedItem.image} alt="" className="dish-detail-image" />
+            ) : (
+              <div className="dish-detail-image placeholder">—</div>
+            )}
+            <div className="dish-detail-body">
+              <h2 className="dish-detail-name">{localized(selectedItem.name, lang)}</h2>
+              <div className="dish-detail-price">
+                {selectedItem.price} {t('common.currency')}
+              </div>
+              {localized(selectedItem.description, lang) ? (
+                <p className="dish-detail-desc">{localized(selectedItem.description, lang)}</p>
+              ) : (
+                <p className="dish-detail-desc muted">{t('admin.noDescription')}</p>
+              )}
+            </div>
+            <div className="dish-detail-footer">
+              {selectedItem.isAvailable !== false ? (
+                <button
+                  type="button"
+                  className="btn btn-primary btn-block"
+                  onClick={() => {
+                    addToCart(selectedItem);
+                    setSelectedItem(null);
+                    setMessage(t('menu.addedToCart'));
+                    setTimeout(() => setMessage(''), 2000);
+                  }}
+                >
+                  {t('menu.addToCart')}
+                </button>
+              ) : (
+                <span className="menu-item-unavailable">{t('menu.unavailable')}</span>
+              )}
+            </div>
+          </div>
         </div>
       )}
 

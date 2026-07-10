@@ -18,6 +18,7 @@ const StaffPage = lazy(() => import('./pages/admin/StaffPage'));
 const StaffDetailPage = lazy(() => import('./pages/admin/StaffDetailPage'));
 const OrdersPage = lazy(() => import('./pages/admin/OrdersPage'));
 const StatsPage = lazy(() => import('./pages/admin/StatsPage'));
+const FinancePage = lazy(() => import('./pages/admin/FinancePage'));
 
 function PageFallback() {
   return (
@@ -54,6 +55,7 @@ export default function App() {
             <Route path="staff/:staffId" element={<StaffDetailPage />} />
             <Route path="orders" element={<OrdersPage />} />
             <Route path="stats" element={<StatsPage />} />
+            <Route path="finance" element={<FinancePage />} />
           </Route>
         </Route>
 

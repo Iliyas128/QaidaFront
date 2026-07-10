@@ -168,6 +168,8 @@ export const api = {
     },
     deleteItem: (estId, id) =>
       request(`/establishments/${estId}/menu/items/${id}`, { method: 'DELETE' }),
+    importFrom: (estId, body) =>
+      request(`/establishments/${estId}/menu/import`, { method: 'POST', body: JSON.stringify(body) }),
   },
   orders: {
     list: (estId, opts = {}) => {

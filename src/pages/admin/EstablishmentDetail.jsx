@@ -21,6 +21,7 @@ export default function EstablishmentDetail() {
     { to: `/admin/establishments/${id}/staff`, label: t('admin.staff') },
     { to: `/admin/establishments/${id}/orders`, label: t('admin.orders') },
     { to: `/admin/establishments/${id}/stats`, label: t('admin.stats') },
+    { to: `/admin/establishments/${id}/finance`, label: t('admin.finance') },
   ];
 
   return (

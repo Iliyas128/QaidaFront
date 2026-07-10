@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api, localized } from '../../api';
+import MenuItemFormFields from '../../components/MenuItemFormFields';
 
 const emptyItemForm = () => ({
   category: '',
@@ -22,15 +23,25 @@ export default function MenuPage() {
   const [editingItem, setEditingItem] = useState(null);
   const [uploadError, setUploadError] = useState('');
   const [catName, setCatName] = useState({ ru: '', kk: '' });
-  const [itemForm, setItemForm] = useState(emptyItemForm());
+  const [itemForm, setItemForm] = useState(emptyItemForm);
+  const [allEstablishments, setAllEstablishments] = useState([]);
+  const [showImport, setShowImport] = useState(false);
+  const [importSource, setImportSource] = useState('');
+  const [importMode, setImportMode] = useState('append');
+  const [importing, setImporting] = useState(false);
+  const [importMessage, setImportMessage] = useState('');
+
+  const otherEstablishments = allEstablishments.filter((e) => e._id !== estId);
 
   const load = async () => {
-    const [cats, its] = await Promise.all([
+    const [cats, its, ests] = await Promise.all([
       api.menu.categories(estId),
       api.menu.items(estId),
+      api.establishments.list(),
     ]);
     setCategories(cats);
     setItems(its);
+    setAllEstablishments(ests);
   };
 
   useEffect(() => {
@@ -95,85 +106,26 @@ export default function MenuPage() {
     }
   };
 
-  const ItemFormFields = ({ form, setForm, showCategory = true }) => (
-    <>
-      {showCategory && (
-        <div className="form-group">
-          <label>{t('menu.categories')}</label>
-          <select
-            className="form-input"
-            value={form.category}
-            onChange={(e) => setForm({ ...form, category: e.target.value })}
-            required
-          >
-            <option value="">—</option>
-            {categories.map((c) => (
-              <option key={c._id} value={c._id}>
-                {localized(c.name, lang)}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-      <div className="form-row">
-        <div className="form-group">
-          <label>{t('admin.nameRu')}</label>
-          <input
-            className="form-input"
-            value={form.name.ru}
-            onChange={(e) => setForm({ ...form, name: { ...form.name, ru: e.target.value } })}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>{t('admin.nameKz')}</label>
-          <input
-            className="form-input"
-            value={form.name.kk}
-            onChange={(e) => setForm({ ...form, name: { ...form.name, kk: e.target.value } })}
-            required
-          />
-        </div>
-      </div>
-      <div className="form-row">
-        <div className="form-group">
-          <label>{t('admin.descriptionRu')}</label>
-          <textarea
-            className="form-input"
-            rows={3}
-            value={form.description.ru}
-            onChange={(e) =>
-              setForm({ ...form, description: { ...form.description, ru: e.target.value } })
-            }
-            placeholder={t('admin.descriptionPlaceholder')}
-          />
-        </div>
-        <div className="form-group">
-          <label>{t('admin.descriptionKz')}</label>
-          <textarea
-            className="form-input"
-            rows={3}
-            value={form.description.kk}
-            onChange={(e) =>
-              setForm({ ...form, description: { ...form.description, kk: e.target.value } })
-            }
-            placeholder={t('admin.descriptionPlaceholder')}
-          />
-        </div>
-      </div>
-      <div className="form-group">
-        <label>{t('common.total')} (₸)</label>
-        <input
-          className="form-input"
-          type="number"
-          value={form.price}
-          onChange={(e) => setForm({ ...form, price: e.target.value })}
-          required
-          min={0}
-        />
-      </div>
-    </>
-  );
+  const handleImport = async (e) => {
+    e.preventDefault();
+    if (!importSource) return;
+    setImporting(true);
+    setImportMessage('');
+    try {
+      const result = await api.menu.importFrom(estId, {
+        sourceEstablishmentId: importSource,
+        mode: importMode,
+      });
+      setImportMessage(result.message);
+      setShowImport(false);
+      setImportSource('');
+      load();
+    } catch (err) {
+      setImportMessage(err.message);
+    } finally {
+      setImporting(false);
+    }
+  };
 
   return (
     <div>
@@ -184,8 +136,14 @@ export default function MenuPage() {
         <button className="btn btn-secondary" onClick={() => setShowItemForm(true)}>
           + {t('admin.createItem')}
         </button>
+        {otherEstablishments.length > 0 && (
+          <button className="btn btn-secondary" onClick={() => setShowImport(true)}>
+            {t('admin.importMenu')}
+          </button>
+        )}
       </div>
       {uploadError && <div className="error-msg">{uploadError}</div>}
+      {importMessage && <div className="success-msg" style={{ marginBottom: 16 }}>{importMessage}</div>}
 
       {showCatForm && (
         <div className="modal-overlay" onClick={() => setShowCatForm(false)}>
@@ -211,7 +169,11 @@ export default function MenuPage() {
           <div className="modal modal-wide" onClick={(e) => e.stopPropagation()}>
             <h2 className="modal-title">{t('admin.createItem')}</h2>
             <form onSubmit={createItem}>
-              <ItemFormFields form={itemForm} setForm={setItemForm} />
+              <MenuItemFormFields
+                form={itemForm}
+                setForm={setItemForm}
+                categories={categories}
+              />
               <button className="btn btn-primary">{t('common.save')}</button>
             </form>
           </div>
@@ -223,8 +185,65 @@ export default function MenuPage() {
           <div className="modal modal-wide" onClick={(e) => e.stopPropagation()}>
             <h2 className="modal-title">{t('admin.editItem')}</h2>
             <form onSubmit={saveEditItem}>
-              <ItemFormFields form={editingItem} setForm={setEditingItem} />
+              <MenuItemFormFields
+                form={editingItem}
+                setForm={setEditingItem}
+                categories={categories}
+              />
               <button className="btn btn-primary">{t('common.save')}</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showImport && (
+        <div className="modal-overlay" onClick={() => setShowImport(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2 className="modal-title">{t('admin.importMenu')}</h2>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: 16 }}>
+              {t('admin.importMenuHint')}
+            </p>
+            <form onSubmit={handleImport}>
+              <div className="form-group">
+                <label>{t('admin.importFrom')}</label>
+                <select
+                  className="form-input"
+                  value={importSource}
+                  onChange={(e) => setImportSource(e.target.value)}
+                  required
+                >
+                  <option value="">—</option>
+                  {otherEstablishments.map((est) => (
+                    <option key={est._id} value={est._id}>
+                      {est.name}{est.address ? ` — ${est.address}` : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>{t('admin.importMode')}</label>
+                <select
+                  className="form-input"
+                  value={importMode}
+                  onChange={(e) => setImportMode(e.target.value)}
+                >
+                  <option value="append">{t('admin.importModeAppend')}</option>
+                  <option value="replace">{t('admin.importModeReplace')}</option>
+                </select>
+                <span className="form-hint">
+                  {importMode === 'replace'
+                    ? t('admin.importModeReplaceHint')
+                    : t('admin.importModeAppendHint')}
+                </span>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowImport(false)}>
+                  {t('common.cancel')}
+                </button>
+                <button className="btn btn-primary" disabled={importing}>
+                  {importing ? t('common.loading') : t('admin.importMenu')}
+                </button>
+              </div>
             </form>
           </div>
         </div>
