@@ -27,6 +27,7 @@ export default function ChefPanel() {
   const [tab, setTab] = useState('orders');
   const [orders, setOrders] = useState([]);
   const [confirm, setConfirm] = useState(null);
+  const [now, setNow] = useState(Date.now());
   const { size: fontSize, stepDown, stepUp, canStepDown, canStepUp } = useChefFontSize();
   const socket = useSocket(estId, 'chef');
   useStaffNotifications();
@@ -41,6 +42,11 @@ export default function ChefPanel() {
   useEffect(() => {
     load();
   }, [load]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), 30000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (!socket) return;
@@ -186,8 +192,18 @@ export default function ChefPanel() {
                   </span>
                   <StatusBadge status={order.status} />
                 </div>
-                <div className="chef-order-time">
-                  {new Date(order.createdAt).toLocaleTimeString()}
+                <div
+                  className={`chef-order-time chef-order-timer ${
+                    (now - new Date(order.createdAt).getTime()) / 60000 >= 20
+                      ? 'chef-order-timer-danger'
+                      : (now - new Date(order.createdAt).getTime()) / 60000 >= 10
+                        ? 'chef-order-timer-warning'
+                        : ''
+                  }`}
+                >
+                  {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {' · '}
+                  {Math.max(0, Math.floor((now - new Date(order.createdAt).getTime()) / 60000))} мин.
                 </div>
                 {order.items.map((item, i) => (
                   <div key={i} className="order-item-line chef-order-item">

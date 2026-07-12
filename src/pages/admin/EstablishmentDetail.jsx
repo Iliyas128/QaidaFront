@@ -5,7 +5,7 @@ import { api } from '../../api';
 
 export default function EstablishmentDetail() {
   const { id } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [establishment, setEstablishment] = useState(null);
 
   useEffect(() => {
@@ -22,6 +22,7 @@ export default function EstablishmentDetail() {
     { to: `/admin/establishments/${id}/orders`, label: t('admin.orders') },
     { to: `/admin/establishments/${id}/stats`, label: t('admin.stats') },
     { to: `/admin/establishments/${id}/finance`, label: t('admin.finance') },
+    { to: `/admin/establishments/${id}/warehouse`, label: i18n.language === 'kk' ? 'Қойма' : 'Склад' },
   ];
 
   return (

@@ -221,6 +221,63 @@ export const api = {
     delete: (estId, id) =>
       request(`/establishments/${estId}/finance/${id}`, { method: 'DELETE' }),
   },
+  warehouse: {
+    overview: (estId, warehouseId = '') => {
+      const q = warehouseId ? `?warehouseId=${encodeURIComponent(warehouseId)}` : '';
+      return request(`/establishments/${estId}/warehouse/overview${q}`);
+    },
+    warehouses: (estId) => request(`/establishments/${estId}/warehouse/warehouses`),
+    createWarehouse: (estId, body) =>
+      request(`/establishments/${estId}/warehouse/warehouses`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
+    items: (estId) => request(`/establishments/${estId}/warehouse/items`),
+    createItem: (estId, body) =>
+      request(`/establishments/${estId}/warehouse/items`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
+    updateItem: (estId, itemId, body) =>
+      request(`/establishments/${estId}/warehouse/items/${itemId}`, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+      }),
+    suppliers: (estId) => request(`/establishments/${estId}/warehouse/suppliers`),
+    createSupplier: (estId, body) =>
+      request(`/establishments/${estId}/warehouse/suppliers`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
+    recipes: (estId) => request(`/establishments/${estId}/warehouse/recipes`),
+    createRecipe: (estId, body) =>
+      request(`/establishments/${estId}/warehouse/recipes`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
+    documents: (estId, params = {}) => {
+      const q = new URLSearchParams(params).toString();
+      return request(`/establishments/${estId}/warehouse/documents${q ? `?${q}` : ''}`);
+    },
+    createDocument: (estId, body) =>
+      request(`/establishments/${estId}/warehouse/documents`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
+    postDocument: (estId, documentId) =>
+      request(`/establishments/${estId}/warehouse/documents/${documentId}/post`, { method: 'POST' }),
+    cancelDocument: (estId, documentId) =>
+      request(`/establishments/${estId}/warehouse/documents/${documentId}/cancel`, { method: 'POST' }),
+    receiveDocument: (estId, documentId, body = {}) =>
+      request(`/establishments/${estId}/warehouse/documents/${documentId}/receive`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
+    movements: (estId, params = {}) => {
+      const q = new URLSearchParams(params).toString();
+      return request(`/establishments/${estId}/warehouse/movements${q ? `?${q}` : ''}`);
+    },
+  },
   waiterCalls: {
     list: (estId) => request(`/establishments/${estId}/waiter-calls`),
     acknowledge: (estId, callId) =>

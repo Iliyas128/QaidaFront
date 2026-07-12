@@ -965,3 +965,110 @@ textarea.form-input { resize: vertical; min-height: 72px; padding: 10px 0; }
     padding: 24px;
   }
 }
+
+/* Warehouse */
+.warehouse-page { min-width: 0; }
+.warehouse-title-row,
+.warehouse-table-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.warehouse-title-row p,
+.warehouse-table-header p,
+.warehouse-table-header > span,
+.warehouse-muted {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+.warehouse-tabs { margin-bottom: 24px; }
+.warehouse-toolbar { margin-bottom: 20px; max-width: 360px; }
+.warehouse-toolbar label,
+.warehouse-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.warehouse-toolbar label { align-items: flex-end; }
+.warehouse-toolbar .form-input { min-width: 220px; }
+.warehouse-table-card { padding: 0; overflow: hidden; margin-bottom: 20px; }
+.warehouse-table-card > .card-title,
+.warehouse-table-card > .warehouse-table-header,
+.warehouse-table-card > .table-row,
+.warehouse-table-card > .empty-state,
+.warehouse-table-card > .btn { margin-left: 24px; margin-right: 24px; }
+.warehouse-table-card > .card-title,
+.warehouse-table-card > .warehouse-table-header { margin-top: 24px; }
+.warehouse-table-card > .btn { margin-bottom: 24px; }
+.warehouse-table-scroll { width: 100%; overflow-x: auto; margin-bottom: 20px; }
+.warehouse-table { width: 100%; border-collapse: collapse; min-width: 760px; }
+.warehouse-table th,
+.warehouse-table td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--border); }
+.warehouse-table th {
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.warehouse-table td { font-size: 0.875rem; }
+.warehouse-table tbody tr:hover { background: var(--bg-soft); }
+.warehouse-row-warning { background: #fffaf0; }
+.warehouse-row-danger { background: #fff1f1; }
+.warehouse-warning-text { color: #a55b00; }
+.warehouse-danger-text { color: #b42318; }
+.warehouse-positive-text { color: #16794b; }
+.warehouse-link { font-weight: 700; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
+.warehouse-alert { border: 1px solid var(--border-dark); padding: 14px 16px; margin-bottom: 16px; font-size: 0.875rem; }
+.warehouse-alert-error { border-color: #b42318; color: #b42318; background: #fff7f6; }
+.warehouse-two-column { display: grid; grid-template-columns: minmax(300px, 0.85fr) minmax(380px, 1.15fr); gap: 20px; align-items: start; }
+.warehouse-document-head { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 16px; }
+.warehouse-lines { display: flex; flex-direction: column; gap: 10px; }
+.warehouse-line { display: grid; grid-template-columns: minmax(200px, 2fr) repeat(2, minmax(120px, 1fr)) auto; gap: 12px; align-items: end; }
+.warehouse-line:has(select:nth-child(2)) { grid-template-columns: minmax(180px, 2fr) minmax(130px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) auto; }
+.warehouse-recipe-line { display: grid; grid-template-columns: minmax(170px, 2fr) 1fr 1fr auto; gap: 10px; align-items: end; }
+.warehouse-recipe-card { border-top: 1px solid var(--border); padding: 20px 24px; }
+.warehouse-recipe-card .warehouse-table-header { margin-bottom: 8px; }
+.warehouse-recipe-card .table-row { padding-left: 0; padding-right: 0; }
+.warehouse-row-actions,
+.warehouse-purchase-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.warehouse-purchase-controls .form-input { min-width: 190px; }
+.warehouse-status { display: inline-flex; padding: 5px 8px; border: 1px solid var(--border); font-size: 0.6875rem; font-weight: 700; letter-spacing: var(--tracking); text-transform: uppercase; }
+.warehouse-status-posted { border-color: #16794b; color: #16794b; }
+.warehouse-status-cancelled { color: var(--text-muted); text-decoration: line-through; }
+.warehouse-select { width: min(280px, 100%); }
+.warehouse-count-input { min-width: 120px; padding: 8px; border: 1px solid var(--border); }
+.warehouse-checkbox { margin: 8px 0 20px; }
+.warehouse-checkbox input { width: 18px; height: 18px; }
+.warehouse-supplier-product { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.chef-order-timer { display: inline-flex; padding: 5px 8px; border: 1px solid var(--border); margin-bottom: 12px; font-weight: 700; }
+.chef-order-timer-warning { border-color: #a55b00; color: #a55b00; background: #fffaf0; }
+.chef-order-timer-danger { border-color: #b42318; color: #b42318; background: #fff1f1; }
+
+@media (max-width: 1000px) {
+  .warehouse-two-column { grid-template-columns: 1fr; }
+  .warehouse-document-head { grid-template-columns: 1fr 1fr; }
+  .warehouse-line,
+  .warehouse-line:has(select:nth-child(2)),
+  .warehouse-recipe-line { grid-template-columns: 1fr 1fr; }
+  .warehouse-supplier-product { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .warehouse-title-row,
+  .warehouse-table-header { flex-direction: column; align-items: stretch; }
+  .warehouse-title-row .btn { width: 100%; }
+  .warehouse-toolbar { max-width: none; }
+  .warehouse-toolbar label { flex-direction: column; align-items: stretch; }
+  .warehouse-toolbar .form-input { min-width: 0; }
+  .warehouse-document-head,
+  .warehouse-line,
+  .warehouse-line:has(select:nth-child(2)),
+  .warehouse-recipe-line { grid-template-columns: 1fr; }
+  .warehouse-row-actions { width: 100%; justify-content: flex-start; }
+  .warehouse-document-row { align-items: flex-start; flex-direction: column; }
+}
