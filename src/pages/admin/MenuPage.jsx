@@ -3,6 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api, localized } from '../../api';
 import MenuItemFormFields from '../../components/MenuItemFormFields';
+import MenuThemePicker from '../../components/MenuThemePicker';
 
 const emptyItemForm = () => ({
   category: '',
@@ -12,7 +13,7 @@ const emptyItemForm = () => ({
 });
 
 export default function MenuPage() {
-  const { estId } = useOutletContext();
+  const { estId, establishment } = useOutletContext();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
 
@@ -129,6 +130,11 @@ export default function MenuPage() {
 
   return (
     <div>
+      <MenuThemePicker
+        establishmentId={estId}
+        initialTheme={establishment?.menuTheme || 'classic'}
+        lang={lang}
+      />
       <div style={{ display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap' }}>
         <button className="btn btn-primary" onClick={() => setShowCatForm(true)}>
           + {t('admin.createCategory')}

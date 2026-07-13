@@ -179,10 +179,16 @@ export default function ClientMenu() {
       : activeOrders.some((o) => o.status === 'new')
         ? 'new'
         : null;
+  const menuTheme = ['classic', 'bistro', 'night'].includes(data.establishment.menuTheme)
+    ? data.establishment.menuTheme
+    : 'classic';
 
   return (
-    <div className="page" style={{ paddingBottom: cartCount > 0 ? 80 : 0 }}>
-      <header className="header">
+    <div
+      className={`page client-menu-page client-menu-theme-${menuTheme}`}
+      style={{ paddingBottom: cartCount > 0 ? 96 : 0 }}
+    >
+      <header className="header client-menu-header">
         <div className="container header-inner">
           <div>
             {data.establishment.logo && (
@@ -257,8 +263,16 @@ export default function ClientMenu() {
         </div>
       )}
 
-      <div className="container">
-        <div className="category-tabs">
+      <main className="container client-menu-shell">
+        <section className="client-menu-intro">
+          <span className="client-menu-intro-kicker">
+            {lang === 'kk' ? `ҮСТЕЛ ${data.table.number}` : `СТОЛ ${data.table.number}`}
+          </span>
+          <h1>{lang === 'kk' ? 'Мәзір' : 'Меню'}</h1>
+          {data.establishment.address && <p>{data.establishment.address}</p>}
+        </section>
+
+        <div className="category-tabs client-menu-categories">
           {data.categories.map((cat) => (
             <button
               key={cat._id}
@@ -270,7 +284,7 @@ export default function ClientMenu() {
           ))}
         </div>
 
-        <div className="grid-2" style={{ padding: '24px 0 32px' }}>
+        <div className="grid-2 client-menu-grid">
           {filteredItems.map((item) => (
             <button
               key={item._id}
@@ -311,10 +325,10 @@ export default function ClientMenu() {
             </button>
           ))}
         </div>
-      </div>
+      </main>
 
       {cartCount > 0 && (
-        <div className="cart-bar">
+        <div className="cart-bar client-menu-cart-bar">
           <div className="cart-bar-info">
             <strong>{t('menu.cart')} ({cartCount})</strong>
             <div className="cart-bar-total">{cartTotal} {t('common.currency')}</div>
