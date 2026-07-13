@@ -19,7 +19,7 @@ export default function Register() {
     setError('');
     setLoading(true);
     try {
-      if (user) logout();
+      if (user) await logout();
       await register(name, email, password);
       navigate('/admin');
     } catch (err) {

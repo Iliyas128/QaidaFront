@@ -153,6 +153,11 @@ export default function WaiterPanel() {
     }
   };
 
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login', { replace: true });
+  };
+
   const clearTable = async (tableId) => {
     setTables((prev) =>
       prev.map((t) =>
@@ -205,7 +210,7 @@ export default function WaiterPanel() {
               <PushToggle establishmentId={estId} />
             </div>
             <LangSwitch />
-            <button className="btn btn-sm btn-secondary staff-logout-btn" onClick={() => { logout(); navigate('/login'); }}>
+            <button className="btn btn-sm btn-secondary staff-logout-btn" onClick={handleLogout}>
               <span className="staff-logout-text">{t('auth.logout')}</span>
               <span aria-hidden="true">✕</span>
             </button>

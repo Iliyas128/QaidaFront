@@ -25,7 +25,7 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      if (user) logout();
+      if (user) await logout();
       const loggedIn = await login(email.trim(), password);
       goByRole(loggedIn.role);
     } catch (err) {

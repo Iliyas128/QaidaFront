@@ -203,8 +203,26 @@ export default function ClientMenu() {
             <button className="btn btn-sm btn-secondary" onClick={() => setShowOrders(!showOrders)}>
               {t('menu.yourOrders')}
             </button>
-            <button className="icon-btn" onClick={callWaiter} title={t('menu.callWaiter')}>
-              ···
+            <button
+              className="icon-btn"
+              onClick={callWaiter}
+              title={t('menu.callWaiter')}
+              aria-label={t('menu.callWaiter')}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M6 9a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+              </svg>
             </button>
             <LangSwitch />
           </div>

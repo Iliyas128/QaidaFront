@@ -66,13 +66,23 @@ export async function hasPushSubscription() {
 }
 
 export async function unsubscribeFromPush(api) {
-  if (!('serviceWorker' in navigator)) return;
-  const reg = await navigator.serviceWorker.ready;
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
+  const reg = await navigator.serviceWorker.getRegistration();
+  if (!reg) return false;
+
   const sub = await reg.pushManager.getSubscription();
-  if (sub) {
-    await api.push.unsubscribe({ endpoint: sub.endpoint });
-    await sub.unsubscribe();
-  }
+  const notifications = typeof reg.getNotifications === 'function'
+    ? await reg.getNotifications().catch(() => [])
+    : [];
+  notifications.forEach((notification) => notification.close());
+
+  if (!sub) return false;
+
+  await Promise.allSettled([
+    api.push.unsubscribe({ endpoint: sub.endpoint }),
+    sub.unsubscribe(),
+  ]);
+  return true;
 }
 
 export function isPushSupported() {
